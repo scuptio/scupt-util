@@ -1,3 +1,6 @@
+[lib]
+path = "src/lib.rs"
+
 [package]
 name = "common"
 version = "0.0.1"
