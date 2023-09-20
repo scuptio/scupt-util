@@ -2,7 +2,7 @@
 path = "src/lib.rs"
 
 [package]
-name = "common"
+name = "scupt-util"
 version = "0.0.1"
 edition = "2021"
 
