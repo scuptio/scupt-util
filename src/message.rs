@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 use std::hash::Hash;
-use std::marker::{Destruct, Send};
+use std::marker::Send;
 
 use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
@@ -90,8 +90,7 @@ impl<M: MsgTrait> Message<M> {
 
     pub fn map<U, F>(self, f: F) -> Message<U>
         where U: MsgTrait + 'static,
-              F: ~ const FnOnce(M) -> U + 'static,
-              F: ~ const Destruct,
+              F:  Fn(M) -> U + 'static
     {
         let payload = f(self.payload);
         Message {
