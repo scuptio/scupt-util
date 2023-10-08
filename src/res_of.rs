@@ -29,3 +29,9 @@ pub fn res_option<T>(opt: Option<T>) -> Res<T> {
     }
 }
 
+pub fn res_serde_json<T>(r: Result<T, serde_json::error::Error>) -> Res<T> {
+    match r {
+        Ok(t) => Ok(t),
+        Err(e) => Err(ET::SerdeError(e.to_string())),
+    }
+}

@@ -17,5 +17,6 @@ env_logger = "0.10.0"
 uuid = { version = "1.4.1", features = ["v4", "fast-rng", "macro-diagnostics"] }
 bincode = "2.0.0-rc.3"
 serde = { version = "1.0.188", features = ["derive", "rc"] }
+serde_json = { version = "1.0.107", features = ["std", "arbitrary_precision", "preserve_order"] }
 tokio = { version = "1.32.0", features = ["full", "tracing"] }
 tree-sitter = "0.20.10"
