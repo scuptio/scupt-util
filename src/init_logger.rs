@@ -6,17 +6,26 @@ use tracing_subscriber::Layer;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
-static INIT: Once = Once::new();
+pub static INIT: Once = Once::new();
 
 static INIT_ENV: Once = Once::new();
 
 pub fn logger_setup_with_console() {
     INIT.call_once(
-        || { _setup_with_console(); }
+        || { _setup_with_console("info"); }
     );
 }
 
-pub fn _setup_with_console() {
+
+pub fn _setup_with_console(level:&str) {
+    let filter = match level {
+        "info" => { tracing_subscriber::filter::LevelFilter::INFO }
+        "debug" => { tracing_subscriber::filter::LevelFilter::DEBUG }
+        "trace" => { tracing_subscriber::filter::LevelFilter::TRACE }
+        "warn" => { tracing_subscriber::filter::LevelFilter::WARN }
+        "error" => { tracing_subscriber::filter::LevelFilter::ERROR }
+        _ => { panic!("unknown level {}", level)}
+    };
     let console_layer = console_subscriber::spawn();
     tracing_subscriber::registry()
         .with(console_layer)
@@ -28,9 +37,7 @@ pub fn _setup_with_console() {
                 // display source code line numbers
                 .with_line_number(true)
                 .without_time()
-                .with_filter(
-                    tracing_subscriber::filter::LevelFilter::DEBUG
-                ),
+                .with_filter(filter),
         )
         .init();
 }
