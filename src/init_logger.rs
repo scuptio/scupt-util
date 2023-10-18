@@ -27,6 +27,7 @@ pub fn _setup_with_console(level:&str) {
         _ => { panic!("unknown level {}", level)}
     };
     let console_layer = console_subscriber::spawn();
+    console_layer.with_filter(tracing_subscriber::filter::LevelFilter::INFO);
     tracing_subscriber::registry()
         .with(console_layer)
         .with(
