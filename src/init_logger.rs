@@ -12,12 +12,12 @@ static INIT_ENV: Once = Once::new();
 
 pub fn logger_setup_with_console() {
     INIT.call_once(
-        || { _setup_with_console("info"); }
+        || { _setup_with_console("info", true); }
     );
 }
 
 
-pub fn _setup_with_console(level:&str) {
+pub fn _setup_with_console(level:&str, enable_console_layer:bool) {
     let filter = match level {
         "info" => { tracing_subscriber::filter::LevelFilter::INFO }
         "debug" => { tracing_subscriber::filter::LevelFilter::DEBUG }
@@ -26,10 +26,10 @@ pub fn _setup_with_console(level:&str) {
         "error" => { tracing_subscriber::filter::LevelFilter::ERROR }
         _ => { panic!("unknown level {}", level)}
     };
-    let console_layer = console_subscriber::spawn();
-    tracing_subscriber::registry()
-        .with(console_layer)
-        .with(
+    let register = tracing_subscriber::registry();
+    if enable_console_layer {
+        let console_layer = console_subscriber::spawn();
+        register.with(console_layer).with(
             tracing_subscriber::fmt::layer()
                 .with_level(true)
                 .with_ansi(false)
@@ -39,7 +39,22 @@ pub fn _setup_with_console(level:&str) {
                 .without_time()
                 .with_filter(filter),
         )
-        .init();
+            .init();
+    } else {
+        register.with(
+            tracing_subscriber::fmt::layer()
+                .with_level(true)
+                .with_ansi(false)
+                .with_file(true)
+                // display source code line numbers
+                .with_line_number(true)
+                .without_time()
+                .with_filter(filter),
+        )
+            .init();
+    };
+
+
 }
 
 /// Setup function that is only run once, even if called multiple times.
