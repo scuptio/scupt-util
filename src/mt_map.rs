@@ -14,7 +14,7 @@ use crate::sj_value_ref::SJValueRef;
 pub const STR_KEY:&str = "key";
 pub const STR_VALUE:&str = "value";
 
-pub const STR_MAP:&str = "zzz_map";
+pub const STR_MAP:&str = "zzz_array";
 
 #[derive(
 Clone,
@@ -49,7 +49,7 @@ Encode,
 )]
 pub struct MTMap<K:MsgTrait + 'static, V:MsgTrait + 'static> {
     #[serde(bound = "K:MsgTrait, V: MsgTrait")]
-    pub zzz_map: Vec<KeyValue<K, V>>
+    pub zzz_array: Vec<KeyValue<K, V>>
 }
 
 impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MsgTrait for MTMap<K, V> {
@@ -67,13 +67,13 @@ impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MTMap<K, V> {
             vec.push(kv);
         }
         Self {
-            zzz_map:vec,
+            zzz_array:vec,
         }
     }
 
     pub fn to_hash_map(&self) -> HashMap<K, V> {
         let mut map = HashMap::new();
-        for kv in self.zzz_map.iter() {
+        for kv in self.zzz_array.iter() {
             let opt = map.insert(kv.key.clone(), kv.value.clone());
             if opt.is_some() {
                 panic!("existing key {:?}", kv.key);

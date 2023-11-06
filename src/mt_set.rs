@@ -11,7 +11,7 @@ use crate::sj_value_ref::SJValueRef;
 
 
 /// struct member name, use zzz prefix
-pub const STR_SET:&str = "zzz_set";
+pub const STR_SET:&str = "zzz_array";
 
 
 
@@ -29,7 +29,7 @@ Encode,
 )]
 pub struct MTSet<K:MsgTrait + 'static> {
     #[serde(bound = "K:MsgTrait")]
-    pub zzz_set: Vec<K>
+    pub zzz_array: Vec<K>
 }
 
 impl <K:MsgTrait + 'static> MsgTrait for MTSet<K> {
@@ -43,13 +43,13 @@ impl <K:MsgTrait + 'static> MTSet<K> {
             vec.push(e);
         }
         Self {
-            zzz_set:vec,
+            zzz_array:vec,
         }
     }
 
     pub fn to_hash_map(&self) -> HashSet<K> {
         let mut set = HashSet::new();
-        for e in self.zzz_set.iter() {
+        for e in self.zzz_array.iter() {
             let ok = set.insert(e.clone());
             if ok {
                 panic!("existing key {:?}", e);

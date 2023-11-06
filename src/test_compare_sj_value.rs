@@ -36,7 +36,7 @@ mod tests {
 
         let m1 = TestM {
             set: MTSet{
-                zzz_set:vec
+                zzz_array:vec
             },
             map:Default::default(),
         };
@@ -59,7 +59,7 @@ mod tests {
         let m1 = TestM {
             set: Default::default(),
             map:MTMap {
-                zzz_map: kv,
+                zzz_array: kv,
             }
         };
 
