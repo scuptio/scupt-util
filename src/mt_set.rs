@@ -46,6 +46,17 @@ impl <K:MsgTrait + 'static> MTSet<K> {
             zzz_set:vec,
         }
     }
+
+    pub fn to_hash_map(&self) -> HashSet<K> {
+        let mut set = HashSet::new();
+        for e in self.zzz_set.iter() {
+            let ok = set.insert(e.clone());
+            if ok {
+                panic!("existing key {:?}", e);
+            }
+        }
+        set
+    }
 }
 
 

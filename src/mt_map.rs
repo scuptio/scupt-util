@@ -70,6 +70,17 @@ impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MTMap<K, V> {
             zzz_map:vec,
         }
     }
+
+    pub fn to_hash_map(&self) -> HashMap<K, V> {
+        let mut map = HashMap::new();
+        for kv in self.zzz_map.iter() {
+            let opt = map.insert(kv.key.clone(), kv.value.clone());
+            if opt.is_some() {
+                panic!("existing key {:?}", kv.key);
+            }
+        }
+        map
+    }
 }
 
 pub fn mt_map_from_value(kv:Vec<(Value, Value)>) -> Res<Value> {
