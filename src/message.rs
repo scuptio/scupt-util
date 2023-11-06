@@ -25,31 +25,15 @@ Eq
 + 'static
 {}
 
-#[derive(
-Clone,
-Serialize,
-Hash,
-PartialEq,
-Eq,
-Debug,
-Deserialize,
-Decode,
-Encode,
-)]
-pub enum Direction {
-    C2S,
-    S2C,
-    LOCAL,
-}
 
 // message with source and dest node id
 #[derive(
 Clone,
-Serialize,
 Hash,
 PartialEq,
 Eq,
 Debug,
+Serialize,
 Deserialize,
 Decode,
 Encode,
