@@ -47,7 +47,7 @@ impl <K:MsgTrait + 'static> MTSet<K> {
         }
     }
 
-    pub fn to_hash_map(&self) -> HashSet<K> {
+    pub fn to_set(&self) -> HashSet<K> {
         let mut set = HashSet::new();
         for e in self.zzz_array.iter() {
             let ok = set.insert(e.clone());

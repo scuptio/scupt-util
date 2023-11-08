@@ -71,7 +71,7 @@ impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MTMap<K, V> {
         }
     }
 
-    pub fn to_hash_map(&self) -> HashMap<K, V> {
+    pub fn to_map(&self) -> HashMap<K, V> {
         let mut map = HashMap::new();
         for kv in self.zzz_array.iter() {
             let opt = map.insert(kv.key.clone(), kv.value.clone());
