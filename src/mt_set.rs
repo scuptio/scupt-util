@@ -37,7 +37,7 @@ impl <K:MsgTrait + 'static> MsgTrait for MTSet<K> {
 }
 
 impl <K:MsgTrait + 'static> MTSet<K> {
-    pub fn new(&self, set:HashSet<K>) -> Self {
+    pub fn new(set:HashSet<K>) -> Self {
         let mut vec = vec![];
         for e in set {
             vec.push(e);

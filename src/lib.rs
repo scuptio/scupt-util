@@ -23,3 +23,5 @@ pub mod sj_value_ref;
 pub mod mt_map;
 pub mod mt_set;
 mod test_compare_sj_value;
+mod test_mt_set;
+mod test_mt_map;

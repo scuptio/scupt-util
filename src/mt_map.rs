@@ -57,7 +57,7 @@ impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MsgTrait for MTMap<K, V> {
 }
 
 impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MTMap<K, V> {
-    pub fn new(&self, map:HashMap<K, V>) -> Self {
+    pub fn new(map:HashMap<K, V>) -> Self {
         let mut vec = vec![];
         for (k, v) in map {
             let kv = KeyValue {
