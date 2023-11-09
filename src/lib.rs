@@ -17,7 +17,6 @@ pub mod datum_msg;
 pub mod get_exec;
 pub mod res_of;
 pub mod backtrace;
-pub mod ts_node_context_string;
 pub mod logger;
 pub mod sj_value_ref;
 pub mod mt_map;
