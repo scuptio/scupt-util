@@ -51,7 +51,7 @@ impl <K:MsgTrait + 'static> MTSet<K> {
         let mut set = HashSet::new();
         for e in self.zzz_array.iter() {
             let ok = set.insert(e.clone());
-            if ok {
+            if !ok {
                 panic!("existing key {:?}", e);
             }
         }
