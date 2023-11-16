@@ -117,3 +117,12 @@ impl MsgTrait for u64 {}
 impl MsgTrait for u32 {}
 
 impl MsgTrait for () {}
+
+impl MsgTrait for String {
+
+}
+impl <T:MsgTrait + 'static> MsgTrait for Vec<T> {
+
+}
+
+
