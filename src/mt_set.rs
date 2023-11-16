@@ -16,7 +16,6 @@ pub const STR_SET:&str = "zzz_array";
 
 
 #[derive(
-Default,
 Clone,
 Serialize,
 Hash,
@@ -34,6 +33,14 @@ pub struct MTSet<K:MsgTrait + 'static> {
 
 impl <K:MsgTrait + 'static> MsgTrait for MTSet<K> {
 
+}
+
+impl <K:MsgTrait + 'static>  Default for MTSet<K> {
+    fn default() -> Self {
+        Self {
+            zzz_array: vec![],
+        }
+    }
 }
 
 impl <K:MsgTrait + 'static> MTSet<K> {

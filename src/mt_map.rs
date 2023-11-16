@@ -36,7 +36,6 @@ pub struct KeyValue<K:MsgTrait + 'static, V:MsgTrait + 'static> {
 
 
 #[derive(
-Default,
 Clone,
 Serialize,
 Hash,
@@ -54,6 +53,14 @@ pub struct MTMap<K:MsgTrait + 'static, V:MsgTrait + 'static> {
 
 impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MsgTrait for MTMap<K, V> {
 
+}
+
+impl <K:MsgTrait + 'static, V:MsgTrait + 'static> Default for MTMap<K, V> {
+    fn default() -> Self {
+        Self {
+            zzz_array: vec![],
+        }
+    }
 }
 
 impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MTMap<K, V> {
