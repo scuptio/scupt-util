@@ -25,6 +25,7 @@ Debug,
 Deserialize,
 Decode,
 Encode,
+Default
 )]
 pub struct __Integer {
     value: i64,
