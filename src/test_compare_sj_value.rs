@@ -20,7 +20,6 @@ mod tests {
     Deserialize,
     Decode,
     Encode,
-    Default,
     )]
     struct TestM {
         set:MTSet<i32>,

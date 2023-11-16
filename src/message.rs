@@ -22,7 +22,6 @@ Eq
 + Decode
 + Send
 + Sync
-+ Default
 + 'static
 {}
 
@@ -38,7 +37,6 @@ Serialize,
 Deserialize,
 Decode,
 Encode,
-Default,
 )]
 pub struct Message<M: MsgTrait + 'static> {
     source: NID,
