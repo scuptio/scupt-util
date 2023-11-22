@@ -14,7 +14,6 @@ pub mod stub_datum;
 pub mod message;
 pub mod node_id;
 pub mod datum_msg;
-pub mod get_exec;
 pub mod res_of;
 pub mod backtrace;
 pub mod logger;
