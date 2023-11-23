@@ -23,3 +23,5 @@ pub mod mt_set;
 mod test_compare_sj_value;
 mod test_mt_set;
 mod test_mt_map;
+pub mod serde_json_string;
+pub mod serde_json_value;
