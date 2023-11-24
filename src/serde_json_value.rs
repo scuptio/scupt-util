@@ -25,6 +25,9 @@ impl SerdeJsonValue {
         &self.value
     }
 
+    pub fn into_serde_json_value(self) -> Value {
+        self.value
+    }
 }
 
 impl Hash for SerdeJsonValue {
