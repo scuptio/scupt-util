@@ -130,6 +130,10 @@ impl <T:MsgTrait + 'static> MsgTrait for Vec<T> {
 
 // utility for testing message
 pub fn test_check_message<M:MsgTrait + 'static>(m: M) -> bool {
+    let debug_str = format!("{:?}", m);
+    if debug_str.is_empty() {
+        return false;
+    }
     let mut set = HashSet::new();
     let r = serde_json::to_string_pretty(&m);
     let s = if let Ok(s) = r {
@@ -160,6 +164,7 @@ pub fn test_check_message<M:MsgTrait + 'static>(m: M) -> bool {
         error!("message is not equal {:?} {:?}", m2, m);
         return false;
     }
+
     return true;
 }
 
