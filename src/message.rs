@@ -12,6 +12,7 @@ use crate::serde_json_string::SerdeJsonString;
 use crate::error_type::ET;
 use crate::node_id::NID;
 use crate::res::Res;
+use crate::serde_json_value::SerdeJsonValue;
 
 pub trait MsgTrait:
 Eq
@@ -124,6 +125,21 @@ impl MsgTrait for () {}
 impl MsgTrait for String {
 
 }
+
+pub fn message_source_id(s:&SerdeJsonValue) -> Option<NID>{
+    let map = s.serde_json_value_ref().as_object()?;
+    let v = map.get(&"source".to_string())?;
+    let nid = v.as_u64()?;
+    return Some(nid)
+}
+
+pub fn message_dest_id(s:&SerdeJsonValue) -> Option<NID> {
+    let map = s.serde_json_value_ref().as_object()?;
+    let v = map.get(&"dest".to_string())?;
+    let nid = v.as_u64()?;
+    return Some(nid)
+}
+
 impl <T:MsgTrait + 'static> MsgTrait for Vec<T> {
 
 }
