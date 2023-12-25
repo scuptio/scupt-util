@@ -116,9 +116,13 @@ impl MsgTrait for i64 {}
 
 impl MsgTrait for i32 {}
 
+impl MsgTrait for i128 {}
+
 impl MsgTrait for u64 {}
 
 impl MsgTrait for u32 {}
+
+impl MsgTrait for u128 {}
 
 impl MsgTrait for () {}
 
