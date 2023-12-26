@@ -185,7 +185,7 @@ impl <'a> Hash for SJValueRef<'a> {
 }
 
 fn need_normalized(s:&String) -> bool {
-    s.eq(mt_map::STR_MAP) || s.eq(mt_set::STR_SET)
+    s.eq(mt_map::STR_MAP_ZZZ) || s.eq(mt_set::STR_SET_ZZZ)
 }
 
 fn compare_normalized(v1:&Value, v2:&Value) -> Ordering {

@@ -5,16 +5,13 @@ use serde::{Deserialize, Serialize};
 use bincode::{Decode, Encode};
 use std::fmt::Debug;
 use serde_json::{Map, Value};
-use crate::error_type::ET;
-use crate::res::Res;
 use crate::sj_value_ref::SJValueRef;
-
 
 /// struct member name
 pub const STR_KEY:&str = "key";
 pub const STR_VALUE:&str = "value";
 
-pub const STR_MAP:&str = "zzz_array";
+pub const STR_MAP_ZZZ:&str = "zzz_array";
 
 #[derive(
 Clone,
@@ -90,12 +87,12 @@ impl <K:MsgTrait + 'static, V:MsgTrait + 'static> MTMap<K, V> {
     }
 }
 
-pub fn mt_map_from_value(kv:Vec<(Value, Value)>) -> Res<Value> {
+pub fn mt_map_from_vec(kv:Vec<(Value, Value)>) -> Option<Value> {
     let mut set = HashSet::new();
     for (k, _) in kv.iter() {
         let ok = set.insert(SJValueRef::from(k));
         if !ok {
-            return Err(ET::ExistingSuchKey);
+            return None;
         }
     }
 
@@ -112,6 +109,33 @@ pub fn mt_map_from_value(kv:Vec<(Value, Value)>) -> Res<Value> {
 
     }
     let mut map = Map::new();
-    map.insert(STR_MAP.to_string(), Value::Array(vec));
-    Ok(Value::Object(map))
+    map.insert(STR_MAP_ZZZ.to_string(), Value::Array(vec));
+    Some(Value::Object(map))
+}
+
+
+pub fn mt_map_to_vec(v:Value) -> Option<Vec<(Value, Value)>> {
+    if let Some(map) = v.as_object() {
+        if map.len() == 1 && map.contains_key(&STR_MAP_ZZZ.to_string()) {
+            if let Some(v) = map.get(&STR_MAP_ZZZ.to_string())  {
+                if let Some(vec_kv) = v.as_array() {
+                    if vec_kv.is_empty() {
+                        return Some(vec![]);
+                    }
+                    let mut vec = vec![];
+                    for kv in vec_kv {
+                        if let Some(kv_map) = kv.as_object() {
+                            if let (Some(k), Some(v)) = (kv_map.get(STR_KEY), kv_map.get(STR_VALUE)) {
+                                vec.push((k.clone(), v.clone()));
+                            }
+                        } else {
+                            return None
+                        }
+                    }
+                    return Some(vec);
+                }
+            }
+        }
+    }
+    None
 }

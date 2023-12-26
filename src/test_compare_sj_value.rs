@@ -6,8 +6,8 @@ mod tests {
     use serde_json::{Number, Value};
 
     use crate::message::MsgTrait;
-    use crate::mt_map::{KeyValue, mt_map_from_value, MTMap};
-    use crate::mt_set::{mt_set_from_value, MTSet};
+    use crate::mt_map::{KeyValue, mt_map_from_vec, MTMap};
+    use crate::mt_set::{mt_set_from_vec, MTSet};
     use crate::sj_value_ref::SJValueRef;
 
     #[derive(
@@ -32,7 +32,7 @@ mod tests {
 
     fn gen_set(vec:Vec<i32>) -> TestM {
         let vec_value = gen_values(vec.clone());
-        let value = mt_set_from_value(vec_value).unwrap();
+        let value = mt_set_from_vec(vec_value).unwrap();
 
         let m1 = TestM {
             set: MTSet{
@@ -52,7 +52,7 @@ mod tests {
     fn gen_map(vec:Vec<(i32, i32)>) -> TestM {
         let mut kv = vec![];
         let vec_value_pairs = gen_value_pairs(vec.clone());
-        let value = mt_map_from_value(vec_value_pairs).unwrap();
+        let value = mt_map_from_vec(vec_value_pairs).unwrap();
         for (k, v) in vec {
             kv.push(KeyValue{key:k, value:v})
         }

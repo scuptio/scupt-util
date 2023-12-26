@@ -5,13 +5,11 @@ use serde::{Deserialize, Serialize};
 use bincode::{Decode, Encode};
 use std::fmt::Debug;
 use serde_json::{Map, Value};
-use crate::error_type::ET;
-use crate::res::Res;
 use crate::sj_value_ref::SJValueRef;
 
 
 /// struct member name, use zzz prefix
-pub const STR_SET:&str = "zzz_array";
+pub const STR_SET_ZZZ:&str = "zzz_array";
 
 
 
@@ -67,12 +65,12 @@ impl <K:MsgTrait + 'static> MTSet<K> {
 }
 
 
-pub fn mt_set_from_value(set:Vec<Value>) -> Res<Value> {
+pub fn mt_set_from_vec(set:Vec<Value>) -> Option<Value> {
     let mut _set = HashSet::new();
     for e in set.iter() {
         let ok = _set.insert(SJValueRef::from(e));
         if !ok {
-            return Err(ET::ExistingSuchKey);
+            return None;
         }
     }
 
@@ -81,6 +79,19 @@ pub fn mt_set_from_value(set:Vec<Value>) -> Res<Value> {
         vec.push(e);
     }
     let mut map = Map::new();
-    map.insert(STR_SET.to_string(), Value::Array(vec));
-    Ok(Value::Object(map))
+    map.insert(STR_SET_ZZZ.to_string(), Value::Array(vec));
+    Some(Value::Object(map))
+}
+
+pub fn mt_set_to_vec(v:Value) -> Option<Vec<Value>> {
+    if let Some(map) = v.as_object() {
+        if map.len() == 1 && map.contains_key(&STR_SET_ZZZ.to_string()) {
+            if let Some(v) = map.get(&STR_SET_ZZZ.to_string())  {
+                if let Some(a) = v.as_array() {
+                    return Some(a.clone())
+                }
+            }
+        }
+    }
+    None
 }
