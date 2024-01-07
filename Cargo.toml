@@ -19,3 +19,4 @@ bincode = "2.0.0-rc.3"
 serde = { version = "1.0.188", features = ["derive", "rc"] }
 serde_json = { version = "1.0.107", features = ["std", "arbitrary_precision", "preserve_order"] }
 tokio = { version = "1.32.0", features = ["full", "tracing"] }
+libc = { version = "0.2.148", features = [] }
