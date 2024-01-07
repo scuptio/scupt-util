@@ -25,4 +25,4 @@ mod test_mt_set;
 mod test_mt_map;
 pub mod serde_json_string;
 pub mod serde_json_value;
-mod sigpipe_ign;
+pub mod sigpipe_ign;
