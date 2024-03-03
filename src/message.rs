@@ -90,14 +90,19 @@ impl<M: MsgTrait> Message<M> {
         }
     }
 
-    pub fn build_json(payload_s:String, source:NID, dest:NID ) -> Res<String> {
+    pub fn build_json_value(payload_s:String, source:NID, dest:NID) -> Res<Value> {
         let payload:Value = serde_json::from_str(payload_s.as_str())
             .map_err(|e| ET::ParseError(e.to_string()) )?;
-        let j = json!({
+        let v = json!({
             "source":source,
             "dest":dest,
             "payload":payload
         });
+        Ok(v)
+    }
+
+    pub fn build_json_str(payload_s:String, source:NID, dest:NID) -> Res<String> {
+        let j = Self::build_json_value(payload_s, source, dest)?;
         Ok(j.to_string())
     }
 }
