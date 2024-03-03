@@ -6,10 +6,12 @@ use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
 use std::collections::HashSet;
+use serde_json::{json, Value};
 use tracing::error;
 
 use crate::serde_json_string::SerdeJsonString;
 use crate::error_type::ET;
+
 use crate::node_id::NID;
 use crate::res::Res;
 use crate::serde_json_value::SerdeJsonValue;
@@ -86,6 +88,17 @@ impl<M: MsgTrait> Message<M> {
             dest: self.dest,
             payload,
         }
+    }
+
+    pub fn build_json(payload_s:String, source:NID, dest:NID ) -> Res<String> {
+        let payload:Value = serde_json::from_str(payload_s.as_str())
+            .map_err(|e| ET::ParseError(e.to_string()) )?;
+        let j = json!({
+            "source":source,
+            "dest":dest,
+            "payload":payload
+        });
+        Ok(j.to_string())
     }
 }
 
