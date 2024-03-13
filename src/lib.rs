@@ -1,5 +1,3 @@
-#![feature(const_trait_impl)]
-
 pub mod error_type;
 pub mod id;
 pub mod res;

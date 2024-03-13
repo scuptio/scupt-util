@@ -1,7 +1,11 @@
-use std::error::{Error};
+use std::error::Error;
 use std::fmt;
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(
+Debug,
+PartialEq,
+Eq,
+Clone)]
 pub enum ET {
     OK,
     TODO,
