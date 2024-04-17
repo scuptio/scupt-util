@@ -1,19 +1,17 @@
+use std::collections::HashSet;
 use std::fmt::Debug;
 use std::hash::Hash;
-use std::marker::Send;
 
 use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
-use std::collections::HashSet;
 use serde_json::{json, Value};
 use tracing::error;
 
-use crate::serde_json_string::SerdeJsonString;
 use crate::error_type::ET;
-
 use crate::node_id::NID;
 use crate::res::Res;
+use crate::serde_json_string::SerdeJsonString;
 use crate::serde_json_value::SerdeJsonValue;
 
 pub trait MsgTrait:

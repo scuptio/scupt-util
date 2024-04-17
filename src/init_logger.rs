@@ -1,7 +1,5 @@
 use std::sync::Once;
 
-use console_subscriber;
-use env_logger;
 use tracing_subscriber::Layer;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
