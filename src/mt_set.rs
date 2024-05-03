@@ -42,6 +42,24 @@ impl <K:MsgTrait + 'static>  Default for MTSet<K> {
 }
 
 impl <K:MsgTrait + 'static> MTSet<K> {
+    pub fn from_vec(vec:Vec<K>) -> Self {
+        let mut keys = HashSet::new();
+        for k in vec.iter() {
+            if !keys.contains(k) {
+                keys.insert(k.clone());
+            } else {
+                panic!("MTSet, existing key {:?}", k);
+            }
+        }
+        Self {
+            zzz_array:vec
+        }
+    }
+
+    pub fn vec(&self) -> &Vec<K> {
+        &self.zzz_array
+    }
+
     pub fn new(set:HashSet<K>) -> Self {
         let mut vec = vec![];
         for e in set {
@@ -57,7 +75,7 @@ impl <K:MsgTrait + 'static> MTSet<K> {
         for e in self.zzz_array.iter() {
             let ok = set.insert(e.clone());
             if !ok {
-                panic!("existing key {:?}", e);
+                panic!("MTSet, existing key {:?}", e);
             }
         }
         set
