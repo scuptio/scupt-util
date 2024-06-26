@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 use std::fmt::Debug;
-use std::hash::Hash;
+use std::hash::{Hash, Hasher};
 
 use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
@@ -37,9 +37,6 @@ pub struct KeyValue<K: MsgTrait + 'static, V: MsgTrait + 'static> {
 #[derive(
 Clone,
 Serialize,
-Hash,
-PartialEq,
-Eq,
 Debug,
 Deserialize,
 Decode,
@@ -56,6 +53,27 @@ impl<K: MsgTrait + 'static, V: MsgTrait + 'static> Default for MTMap<K, V> {
     fn default() -> Self {
         Self {
             zzz_array: vec![],
+        }
+    }
+}
+
+
+impl<K: MsgTrait + 'static, V: MsgTrait + 'static> PartialEq<Self> for MTMap<K, V> {
+    fn eq(&self, other: &Self) -> bool {
+        let s1 = self.to_map();
+        let s2 = other.to_map();
+        s1.eq(&s2)
+    }
+}
+
+impl<K: MsgTrait + 'static, V: MsgTrait + 'static> Eq for MTMap<K, V> {}
+
+impl<K: MsgTrait + 'static, V: MsgTrait + 'static> Hash for MTMap<K, V> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        let map = self.to_map();
+        for (k, v) in map {
+            k.hash(state);
+            v.hash(state);
         }
     }
 }

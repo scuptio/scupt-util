@@ -1,12 +1,13 @@
-use crate::message::MsgTrait;
 use std::collections::HashSet;
-use std::hash::Hash;
-use serde::{Deserialize, Serialize};
-use bincode::{Decode, Encode};
 use std::fmt::Debug;
-use serde_json::{Map, Value};
-use crate::sj_value_ref::SJValueRef;
+use std::hash::{Hash, Hasher};
 
+use bincode::{Decode, Encode};
+use serde::{Deserialize, Serialize};
+use serde_json::{Map, Value};
+
+use crate::message::MsgTrait;
+use crate::sj_value_ref::SJValueRef;
 
 /// struct member name, use zzz prefix
 pub const STR_SET_ZZZ:&str = "zzz_array";
@@ -16,9 +17,6 @@ pub const STR_SET_ZZZ:&str = "zzz_array";
 #[derive(
 Clone,
 Serialize,
-Hash,
-PartialEq,
-Eq,
 Debug,
 Deserialize,
 Decode,
@@ -37,6 +35,25 @@ impl <K:MsgTrait + 'static>  Default for MTSet<K> {
     fn default() -> Self {
         Self {
             zzz_array: vec![],
+        }
+    }
+}
+
+impl<K: MsgTrait + 'static> PartialEq<Self> for MTSet<K> {
+    fn eq(&self, other: &Self) -> bool {
+        let s1 = self.to_set();
+        let s2 = other.to_set();
+        s1.eq(&s2)
+    }
+}
+
+impl<K: MsgTrait + 'static> Eq for MTSet<K> {}
+
+impl<K: MsgTrait + 'static> Hash for MTSet<K> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        let set = self.to_set();
+        for k in set {
+            k.hash(state)
         }
     }
 }
