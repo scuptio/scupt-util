@@ -191,7 +191,7 @@ pub fn test_check_message<M:MsgTrait + 'static>(m: M) -> bool {
 
     let ok = set.remove(&m1);
     if !ok {
-        error!("no such message {:?}", m1);
+        error!("no such message {:?} in {:?}", m1, set);
         return false;
     }
     let encoded = encode_message(m1.clone()).unwrap();
