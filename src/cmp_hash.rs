@@ -5,7 +5,7 @@ use std::hash::{Hash, Hasher, SipHasher};
 pub fn cmp_hash<K:Hash + Eq>(x:&K, y:&K) -> Ordering{
     let mut ord = Ordering::Equal;
     let mut n = 0u64;
-    while ord.is_eq() {
+    while !x.eq(y) && ord.is_eq() {
         let mut h1 = SipHasher::new_with_keys(0, n);
         let mut h2 = SipHasher::new_with_keys(0, n);
         x.hash(&mut h1);

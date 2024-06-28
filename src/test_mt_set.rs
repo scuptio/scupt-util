@@ -30,6 +30,7 @@ mod tests {
     )]
     struct V {
         x : i32,
+        y: i32,
     }
 
     impl MsgTrait for V {
@@ -38,17 +39,21 @@ mod tests {
     #[test]
     fn test_mt_set_hash() {
         let mut vec = vec![];
-        for i in 0..20 {
-            let v = V {
-                x:i
-            };
-            vec.push(v);
+        for j in 0..10 {
+            for i in 0..20 {
+                let v = V {
+                    x: i,
+                    y: j
+                };
+                vec.push(v);
+            }
+            let set1 = MTSet::from_vec(vec.clone());
+            let set2 = MTSet::from_vec(vec.clone());
+            assert_eq!(set1, set2);
+            let mut hash_set = HashSet::new();
+            hash_set.insert(set1);
+            assert!(!hash_set.insert(set2.clone()));
+            assert!(hash_set.contains(&set2));
         }
-        let set1 = MTSet::from_vec(vec.clone());
-        let set2 = MTSet::from_vec(vec.clone());
-        assert_eq!(set1, set2);
-        let mut hash_set = HashSet::new();
-        hash_set.insert(set1);
-        assert!(hash_set.contains(&set2));
     }
 }

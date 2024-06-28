@@ -32,6 +32,7 @@ mod tests {
     )]
     struct K {
         x:i32,
+        y:i32,
     }
 
     impl MsgTrait for K {
@@ -40,20 +41,24 @@ mod tests {
     #[test]
     fn test_mt_map_hash() {
         let mut vec = vec![];
-        for i in 0..20 {
-            let k = K {
-                x:i
-            };
-            let v = K {
-                x:i + 1
-            };
-            vec.push((k, v));
+        for j in 0..10 {
+            for i in 0..20 {
+                let k = K {
+                    x: i,
+                    y:j
+                };
+                let v = K {
+                    x: i + 1,
+                    y:j + 1
+                };
+                vec.push((k, v));
+            }
+            let map1 = MTMap::from_vec(vec.clone());
+            let map2 = MTMap::from_vec(vec.clone());
+            assert_eq!(map1, map2);
+            let mut hash_set = HashSet::new();
+            hash_set.insert(map1);
+            assert!(hash_set.contains(&map2));
         }
-        let map1 = MTMap::from_vec(vec.clone());
-        let map2 =  MTMap::from_vec(vec.clone());
-        assert_eq!(map1, map2);
-        let mut hash_set = HashSet::new();
-        hash_set.insert(map1);
-        assert!(hash_set.contains(&map2));
     }
 }
