@@ -5,6 +5,7 @@ use std::hash::{Hash, Hasher};
 use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
+use crate::cmp_hash::cmp_hash;
 
 use crate::message::MsgTrait;
 use crate::sj_value_ref::SJValueRef;
@@ -70,10 +71,13 @@ impl<K: MsgTrait + 'static, V: MsgTrait + 'static> Eq for MTMap<K, V> {}
 
 impl<K: MsgTrait + 'static, V: MsgTrait + 'static> Hash for MTMap<K, V> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        let map = self.to_map();
-        for (k, v) in map {
-            k.hash(state);
-            v.hash(state);
+        let mut vec = self.zzz_array.clone();
+        vec.sort_by(|x, v| {
+            cmp_hash(&x.key, &v.key)
+        });
+        for kv in vec {
+            kv.key.hash(state);
+            kv.value.hash(state);
         }
     }
 }

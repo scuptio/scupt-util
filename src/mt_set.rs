@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use std::fmt::Debug;
-use std::hash::{Hash, Hasher};
+use std::hash::{ Hash, Hasher};
 
 use bincode::{Decode, Encode};
 use serde::{Deserialize, Serialize};
@@ -8,6 +8,7 @@ use serde_json::{Map, Value};
 
 use crate::message::MsgTrait;
 use crate::sj_value_ref::SJValueRef;
+use crate::cmp_hash::cmp_hash;
 
 /// struct member name, use zzz prefix
 pub const STR_SET_ZZZ:&str = "zzz_array";
@@ -51,8 +52,11 @@ impl<K: MsgTrait + 'static> Eq for MTSet<K> {}
 
 impl<K: MsgTrait + 'static> Hash for MTSet<K> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        let set = self.to_set();
-        for k in set {
+        let mut vec = self.zzz_array.clone();
+        vec.sort_by(|x, y|{
+            cmp_hash(x, y)
+        });
+        for k in vec {
             k.hash(state)
         }
     }

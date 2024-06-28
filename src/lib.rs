@@ -25,3 +25,4 @@ mod test_compare_sj_value;
 mod test_mt_set;
 mod test_mt_map;
 mod test_message;
+mod cmp_hash;
