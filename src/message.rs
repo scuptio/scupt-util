@@ -23,7 +23,7 @@ Eq
 + Serialize
 + DeserializeOwned
 + Encode
-+ Decode
++ Decode<()>
 + Send
 + Sync
 + 'static
